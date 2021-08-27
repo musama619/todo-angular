@@ -1,6 +1,6 @@
 <div class="mt-3">
   <div class="card mb-3">
-    <div [ngClass]="{'bg-primary': todo.active, 'bg-success': !todo.active}" class="card-header text-white" >
+    <div class=" " [className]="' card-header bg-' + todo.color" >
       <div [ngClass]="{'text-decoration': todo.active, 'text-decoration-line-through': !todo.active}" class="float-start fw-bold">
         {{ todo.title }}
       </div>
@@ -19,6 +19,18 @@
     <div class="card-footer text-muted">
       <input type="checkbox" class="form-check-input" id="activeq{{i}}" (click)="onCheckboxClick(todo)" [checked]=!this.todo.active />
       <label class="form-check-label mx-1" for="activeq{{i}}">Mark as done</label>
+
+      <button class="fa fa-square btn rounded float-end" id="success{{i}}" style="color:green" (click)="changeColor(todo, 'success')"></button>
+      <button class="fa fa-square btn rounded float-end" id="primary{{i}}" style="color:blue" (click)="changeColor(todo, 'primary')"></button>
+      <button class="fa fa-square btn rounded float-end" id="warning{{i}}" style="color:yellow" (click)="changeColor(todo, 'warning')"></button>
+      <button class="fa fa-square btn rounded float-end" id="info{{i}}" style="color:turquoise" (click)="changeColor(todo, 'info')"></button>
+      <button class="fa fa-square btn rounded float-end" id="light{{i}}" style="color:gainsboro" (click)="changeColor(todo, 'light')"></button>
+<!-- 
+      <button class="fa fa-square btn rounded float-end" style="color:green" (click)="changeColor('success')"></button>
+      <button class="fa fa-square btn rounded float-end" style="color:blue" (click)="changeColor('primary')"></button>
+      <button class="fa fa-square btn rounded float-end" style="color:yellow" (click)="changeColor('warning')"></button>
+      <button class="fa fa-square btn rounded float-end" style="color:turquoise" (click)="changeColor('info')"></button>
+      <button class="fa fa-square btn rounded float-end" style="color:gainsboro" (click)="changeColor('light')"></button> -->
     </div>
   </div>
 </div>

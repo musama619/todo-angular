@@ -1,6 +1,9 @@
 <div class="my-3">
   <h1 class="text-center">Todo App</h1>
-  <form (ngSubmit)="onSubmit()">
+
+  <button type="submit" class="btn btn-warning" (click)="showDiv()" *ngIf="currDiv === 'D'">Add Task</button>
+
+  <form (ngSubmit)="onSubmit()" *ngIf="currDiv === 'A'">
     <div class="mb-3">
       <label for="title" class="form-label">Todo Title</label>
       <input
@@ -26,6 +29,8 @@
 
     <div class="d-flex justify-content-center">
       <button type="submit" class="btn btn-success">Add Todo</button>
+      <button type="Cancel" class="btn btn-light mx-1" (click)="onCancel()">Cancel</button>
+
     </div>
   </form>
 </div>

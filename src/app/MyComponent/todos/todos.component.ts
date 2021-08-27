@@ -9,7 +9,7 @@ import { Tooltip } from 'node_modules/bootstrap/dist/js/bootstrap.esm.min.js'
 })
 export class TodosComponent implements OnInit {
 
-  
+  color: string;
   ngOnInit() {
     
   }
@@ -36,6 +36,7 @@ export class TodosComponent implements OnInit {
   addTodo(todo: Todo){
     this.todos.push(todo);
     localStorage.setItem("todos", JSON.stringify(this.todos))
+    console.log("inside add todo")
   }
 
   strikeTodo(todo: Todo){
@@ -43,4 +44,16 @@ export class TodosComponent implements OnInit {
     this.todos[index].active = !this.todos[index].active 
     localStorage.setItem("todos", JSON.stringify(this.todos))
   }
+
+  changeColor(data){
+    console.log(data.todo)
+
+    // console.log(Object.values(data.todo))
+    const index = this.todos.indexOf(data.todo)
+    const col = data.color
+    this.todos[index].color = col
+    localStorage.setItem("todos", JSON.stringify(this.todos))
+  }
 }
+
+

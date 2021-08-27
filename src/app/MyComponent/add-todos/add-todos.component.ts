@@ -9,7 +9,7 @@ import { Todo } from 'src/app/Todo';
 })
 export class AddTodosComponent implements OnInit {
 
-  
+  currDiv: string = 'D';
   title: string;
   description: string;
   @Output() todoAdd: EventEmitter<Todo> = new EventEmitter();
@@ -25,8 +25,24 @@ export class AddTodosComponent implements OnInit {
       sno: 9,
       title: this.title,
       description: this.description,
-      active: true
+      active: true,
+      color: 'light'
     }
     this.todoAdd.emit(todo);
+
+    this.currDiv = 'D';
+    this.title = "";
+    this.description = "";
+  }
+
+  showDiv(){
+    this.currDiv = 'A';
+  }
+
+  onCancel(){
+    this.currDiv = 'D'
+
+    this.title = "";
+    this.description = "";
   }
 }
