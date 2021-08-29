@@ -1,0 +1,11 @@
+::ng-deep .cdk-overlay-container {
+    z-index: 1200 !important;
+  }
+
+  .card-body{
+    cursor: pointer;
+  }
+
+  .card-body:hover{
+    border-color: cornflowerblue;
+  }

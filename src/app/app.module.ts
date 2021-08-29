@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +10,20 @@ import { TodosItemComponent } from './MyComponent/todos-item/todos-item.componen
 import { AddTodosComponent } from './MyComponent/add-todos/add-todos.component';
 import { FormsModule } from '@angular/forms';
 import { AboutComponent } from './MyComponent/about/about.component';
+import { RouterModule } from '@angular/router';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
+import {MatNativeDateModule} from '@angular/material/core';
+
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
+
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -17,14 +32,26 @@ import { AboutComponent } from './MyComponent/about/about.component';
     NavbarComponent,
     TodosItemComponent,
     AddTodosComponent,
-    AboutComponent
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    RouterModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    NoopAnimationsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    ButtonsModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    ToastrModule.forRoot(),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

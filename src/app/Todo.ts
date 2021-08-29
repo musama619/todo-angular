@@ -4,5 +4,6 @@ export class Todo{
     description: string 
     active: boolean
     color: string
+    date: string
 
 }
