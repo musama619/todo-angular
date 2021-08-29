@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Todo } from 'src/app/Todo';
-import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
@@ -11,7 +10,16 @@ declare var $: any;
   styleUrls: ['./todos-item.component.css'],
 })
 export class TodosItemComponent implements OnInit {
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    this.getDate = new Date(this.todo.date)
+
+    this.beforeDifference = this.getDate.getTime() - this.newDate.getTime() 
+
+    this.difference = Math.round(Math.abs(this.beforeDifference / (1000 * 3600 * 24)));
+
+   
+  }
 
   // todoColor: any;
   localItem: string;
@@ -25,7 +33,13 @@ export class TodosItemComponent implements OnInit {
   colorChanger: string;
   minDate: Date;
 
- 
+  newDate = new Date()
+
+  getDate: Date;
+
+  beforeDifference: any;
+  difference: number;
+
 
   @Input() todo: Todo;
   @Input() i: number;
@@ -33,13 +47,14 @@ export class TodosItemComponent implements OnInit {
   @Output() todoCheckbox: EventEmitter<Todo> = new EventEmitter();
   @Output() todoColor: EventEmitter<{ todo: Todo; color: string }> =
     new EventEmitter();
-  @Output() todoDate: EventEmitter<{ todo: Todo; date: string }> =
+  @Output() todoDate: EventEmitter<Todo> =
     new EventEmitter();
 
   constructor(private toastr: ToastrService) {
     this.minDate = new Date();
     this.minDate.setDate(this.minDate.getDate());
 
+    
    
   }
 
@@ -51,6 +66,8 @@ export class TodosItemComponent implements OnInit {
   }
 
   onCheckboxClick(todo) {
+
+
     this.todoCheckbox.emit(todo);
   }
 
@@ -69,17 +86,27 @@ export class TodosItemComponent implements OnInit {
   showModalDetails(todo) {
     this.content = this.todo.description;
     this.title = this.todo.title;
-
+    this.date = this.todo.date;
     $('#exampleModal' + this.i).modal('show');
   }
 
-  saveDate(todo: Todo, date) {
-    this.todoDate.emit({ todo: todo, date: date });
+  saveDate(todo: Todo) {
 
+    this.getDate = new Date(this.todo.date)
 
+    this.beforeDifference = this.getDate.getTime() - this.newDate.getTime() 
+
+    this.difference = Math.round(Math.abs(this.beforeDifference / (1000 * 3600 * 24)));
+
+    console.log(todo.date)
+    this.todoDate.emit(todo);
     this.toastr.success('Changes Successful')
 
+      $("#exampleModal"+this.i).modal('hide');
+
   }
+
+  
 
   
 }

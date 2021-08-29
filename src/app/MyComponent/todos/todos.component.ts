@@ -27,7 +27,7 @@ export class TodosComponent implements OnInit {
 
   deleteTodo(todo: Todo) {
     Swal.fire({
-      title: 'Are you sure?',
+      title: 'Delete Todo: "' + todo.title + '"',
       text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
@@ -36,7 +36,7 @@ export class TodosComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire('Deleted!', 'Your todo has been deleted.', 'success');
+        Swal.fire('Deleted!', 'Todo "' + todo.title + '" has been deleted.', 'success');
 
         const index = this.todos.indexOf(todo);
         this.todos.splice(index, 1);
@@ -63,10 +63,15 @@ export class TodosComponent implements OnInit {
     localStorage.setItem('todos', JSON.stringify(this.todos));
   }
 
-  applyDate(data) {
-    const index = this.todos.indexOf(data.todo);
-    const col = data.date;
-    this.todos[index].date = new Date(col).toISOString().split('T')[0];
+  applyDate(todo: Todo) {
+    const index = this.todos.indexOf(todo);
+
+    console.log("Received date: " +todo.date)
+    // const col = todo.date;
+    // this.todos[index].date = new Date(col).toISOString().split('T')[0];
+
+    console.log("After split date: " +todo.date)
+
     localStorage.setItem('todos', JSON.stringify(this.todos));
   }
 }

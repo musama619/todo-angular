@@ -11,9 +11,17 @@ export class AddTodosComponent implements OnInit {
   currDiv: string = 'D';
   title: string;
   description: string;
+  minDate: Date;
+  date: string;
+
+  setDate: Date
+
   @Output() todoAdd: EventEmitter<Todo> = new EventEmitter();
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService) {
+    this.minDate = new Date();
+    this.minDate.setDate(this.minDate.getDate());
+  }
 
   ngOnInit(): void {}
 
@@ -24,19 +32,16 @@ export class AddTodosComponent implements OnInit {
       description: this.description,
       active: true,
       color: 'light',
-      date: '',
+      date: this.date,
     };
 
-    if (!this.title) {
-      this.toastr.error('Todo title cannot be empty');
-    } else {
-      this.todoAdd.emit(todo);
-      this.toastr.success('Todo Added');
+    this.todoAdd.emit(todo);
+    this.toastr.success('Todo Added');
 
-      this.currDiv = 'D';
-      this.title = '';
-      this.description = '';
-    }
+    this.currDiv = 'D';
+    this.title = '';
+    this.description = '';
+    this.date = '';
   }
 
   showDiv() {
@@ -48,5 +53,6 @@ export class AddTodosComponent implements OnInit {
 
     this.title = '';
     this.description = '';
+    this.date = '';
   }
 }

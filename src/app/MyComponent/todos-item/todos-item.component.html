@@ -9,16 +9,50 @@
         class="float-start fw-bold"
       >
         {{ todo.title }}
+        <span
+          class="badge rounded-pill mx-2"
+          [ngClass]="{
+            'bg-danger': difference <= 1,
+            'bg-primary': difference > 1
+          }"
+          id="sett{{ i }}"
+          *ngIf="difference > 1; else elseBlock"
+          >Due in {{ difference }} days</span
+        >
+        <ng-template #elseBlock>
+          <span
+            class="badge rounded-pill mx-2"
+            [ngClass]="{
+              'bg-danger': difference <= 1,
+              'bg-primary': difference > 1
+            }"
+            id="sett{{ i }}"
+            *ngIf="difference < 1; else second"
+            >Due Today</span
+          >
+        </ng-template>
+        <ng-template #second>
+          <span
+            class="badge rounded-pill mx-2"
+            [ngClass]="{
+              'bg-danger': difference <= 1,
+              'bg-primary': difference > 1
+            }"
+            id="sett{{ i }}"
+            >Due in {{difference}} day</span
+          >
+        </ng-template>
       </div>
+
       <div class="float-end">
-        <button
+        <a
           type="button"
-          class="btn-close"
           (click)="onClick(todo)"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           title="Delete todo"
-        ></button>
+          ><i class="fa fa-trash fa-lg text-danger"></i
+        ></a>
       </div>
     </div>
     <a (click)="showModalDetails(todo)">
@@ -54,8 +88,20 @@
             type="button"
             class="btn btn-primary btn-sm rounded float-end"
             (click)="showModalDetails(todo)"
+            [hidden]="!this.todo.active"
           >
-            Edit Todo
+            <i class="fa fa-edit"></i>
+            Edit
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-primary btn-sm rounded float-end"
+            (click)="showModalDetails(todo)"
+            [hidden]="this.todo.active"
+          >
+          <i class="fa fa-eye"></i>
+            View
           </button>
           <button
             class="fa fa-square btn rounded float-end"
@@ -117,18 +163,14 @@
             type="textarea"
             class="form-control"
             id="todoDescription"
+            placeholder="Enter todo description"
             [(ngModel)]="todo.description"
+            [disabled]="!this.todo.active"
           ></textarea>
 
           <br />
 
           <div class="row">
-            <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12 col-xs-12">
-              <div class="float-start">
-                <strong>Due Date:</strong> {{ todo.date }}
-              </div>
-            </div>
-
             <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12 col-xs-12">
               <div class="">
                 <input
@@ -136,15 +178,17 @@
                   #datepickerYMD="bsDatepicker"
                   placeholder="Set New Date"
                   class="form-control"
-                  id="setDateModel{{ i }}"
+                  id="date{{ i }}"
                   bsDatepicker
                   [minDate]="minDate"
                   [bsConfig]="{
-                    dateInputFormat: 'DD-MM-YYYY',
+                    dateInputFormat: 'DD-MMMM-YYYY',
                     isAnimated: true,
                     containerClass: 'theme-dark-blue'
                   }"
-                  [(ngModel)]="date"
+                  [(ngModel)]="todo.date"
+                  [disabled]="!this.todo.active"
+                  readonly="true"
                 />
               </div>
             </div>
@@ -162,9 +206,10 @@
           <button
             type="button"
             class="btn btn-primary"
-            (click)="saveDate(todo, date)"
+            (click)="saveDate(todo)"
+            [hidden]="!this.todo.active"
           >
-            Save changes
+            Save
           </button>
         </div>
       </div>

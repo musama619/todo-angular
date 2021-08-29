@@ -26,9 +26,32 @@
         name="description"
       />
     </div>
+    
+    <div class="mb-3">
+      <label for="description" class="form-label">Due Date</label>
+      <input
+      [(ngModel)]="date"
+      name="date"
+        type="text"
+        #datepickerYMD="bsDatepicker"
+        placeholder="Set New Date"
+        class="form-control"
+        id="date"
+        autocomplete="off"
+        bsDatepicker
+        [minDate]="minDate"
+        [bsConfig]="{
+          dateInputFormat: 'DD-MMMM-YYYY',
+          containerClass: 'theme-dark-blue'
+        }"
+        readonly=true
+        
+
+      />
+    </div>
 
     <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-success">Add Todo</button>
+      <button type="submit" class="btn btn-success" [disabled]="!title">Add Todo</button>
       <button type="Cancel" class="btn btn-light mx-1" (click)="onCancel()">Cancel</button>
 
     </div>

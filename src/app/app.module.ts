@@ -23,6 +23,7 @@ import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ToastrModule } from 'ngx-toastr';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { ToastrModule } from 'ngx-toastr';
     ButtonsModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ToastrModule.forRoot(),
+    TimepickerModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
