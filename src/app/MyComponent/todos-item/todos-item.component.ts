@@ -11,35 +11,45 @@ declare var $: any;
 })
 export class TodosItemComponent implements OnInit {
   ngOnInit(): void {
+    this.getDate = new Date(this.todo.date);
 
-    this.getDate = new Date(this.todo.date)
+    if (isNaN(this.getDate.getTime())) {
+      this.difference = null;
+    } else {
+      this.beforeDifference = this.getDate.getTime() - this.newDate.getTime();
 
-    this.beforeDifference = this.getDate.getTime() - this.newDate.getTime() 
+      this.difference = Math.round(
+        Math.abs(this.beforeDifference / (1000 * 3600 * 24))
+      );
+    }
 
-    this.difference = Math.round(Math.abs(this.beforeDifference / (1000 * 3600 * 24)));
+    const date_N = new Date(this.todo.date);
+    const formattedDate = date_N
+      .toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      })
+      .replace(/ /g, '-');
+    console.log(formattedDate);
 
-   
+    this.todo.date = date_N;
   }
 
-  // todoColor: any;
   localItem: string;
   todos: Todo[];
   color: string;
-
   content: string;
   title: string;
-
-  date: string;
+  date: Date;
   colorChanger: string;
   minDate: Date;
-
-  newDate = new Date()
-
+  newDate = new Date();
   getDate: Date;
-
   beforeDifference: any;
   difference: number;
-
+  previousDate: Date;
+  checkDone: Boolean;
 
   @Input() todo: Todo;
   @Input() i: number;
@@ -47,27 +57,20 @@ export class TodosItemComponent implements OnInit {
   @Output() todoCheckbox: EventEmitter<Todo> = new EventEmitter();
   @Output() todoColor: EventEmitter<{ todo: Todo; color: string }> =
     new EventEmitter();
-  @Output() todoDate: EventEmitter<Todo> =
-    new EventEmitter();
+  @Output() todoDate: EventEmitter<Todo> = new EventEmitter();
 
   constructor(private toastr: ToastrService) {
     this.minDate = new Date();
     this.minDate.setDate(this.minDate.getDate());
-
-    
-   
   }
 
   onClick(todo) {
-
-
     this.todoDelete.emit(todo);
     console.log('close');
   }
 
   onCheckboxClick(todo) {
-
-
+    
     this.todoCheckbox.emit(todo);
   }
 
@@ -91,22 +94,22 @@ export class TodosItemComponent implements OnInit {
   }
 
   saveDate(todo: Todo) {
+    this.getDate = new Date(this.todo.date);
 
-    this.getDate = new Date(this.todo.date)
+    this.beforeDifference = this.getDate.getTime() - this.newDate.getTime();
 
-    this.beforeDifference = this.getDate.getTime() - this.newDate.getTime() 
+    this.difference = Math.round(
+      Math.abs(this.beforeDifference / (1000 * 3600 * 24))
+    );
 
-    this.difference = Math.round(Math.abs(this.beforeDifference / (1000 * 3600 * 24)));
-
-    console.log(todo.date)
+    console.log(todo.date);
     this.todoDate.emit(todo);
-    this.toastr.success('Changes Successful')
+    this.toastr.success('Changes Successful');
 
-      $("#exampleModal"+this.i).modal('hide');
-
+    $('#exampleModal' + this.i).modal('hide');
   }
 
-  
-
-  
+  onDateChange(newDate: Date) {
+    console.log('new date: ' + newDate);
+  }
 }

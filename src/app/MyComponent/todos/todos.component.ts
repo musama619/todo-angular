@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 export class TodosComponent implements OnInit {
 
   color: string;
-  date: string;
+  date: Date;
   localItem: string;
   todos: Todo[];
 
@@ -21,6 +21,7 @@ export class TodosComponent implements OnInit {
     if (this.localItem == null) {
       this.todos = [];
     } else {
+
       this.todos = JSON.parse(this.localItem);
     }
   }

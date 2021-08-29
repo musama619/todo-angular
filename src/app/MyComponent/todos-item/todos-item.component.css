@@ -10,3 +10,5 @@
   border-color: cornflowerblue;
 }
 
+textarea[type="textarea"]:disabled{background-color: white;}
+

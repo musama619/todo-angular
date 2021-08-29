@@ -9,7 +9,7 @@
         class="float-start fw-bold"
       >
         {{ todo.title }}
-        <span
+        <span [hidden]="!todo.active"
           class="badge rounded-pill mx-2"
           [ngClass]="{
             'bg-danger': difference <= 1,
@@ -19,27 +19,42 @@
           *ngIf="difference > 1; else elseBlock"
           >Due in {{ difference }} days</span
         >
+        <span [hidden]="todo.active"
+          class="badge rounded-pill mx-2 bg-success"
+          
+          id="sett{{ i }}"
+          >Completed</span
+        >
         <ng-template #elseBlock>
-          <span
+          <span [hidden]="!todo.active"
             class="badge rounded-pill mx-2"
             [ngClass]="{
               'bg-danger': difference <= 1,
               'bg-primary': difference > 1
             }"
             id="sett{{ i }}"
-            *ngIf="difference < 1; else second"
+            *ngIf="difference < 1 && difference >= 0; else second"
             >Due Today</span
           >
         </ng-template>
         <ng-template #second>
-          <span
+          <span [hidden]="!todo.active"
             class="badge rounded-pill mx-2"
             [ngClass]="{
               'bg-danger': difference <= 1,
               'bg-primary': difference > 1
             }"
-            id="sett{{ i }}"
+            id="sett{{ i }}" 
+            *ngIf="difference === 1; else third"
             >Due in {{difference}} day</span
+          >
+        </ng-template>
+        <ng-template #third>
+          <span [hidden]="!todo.active"
+            class="badge rounded-pill mx-2"
+            
+            id="sett{{ i }}" 
+            ></span
           >
         </ng-template>
       </div>
@@ -64,6 +79,7 @@
           }"
           class="card-text"
         >
+
           {{ todo.description }}
         </p>
       </div>
@@ -104,31 +120,31 @@
             View
           </button>
           <button
-            class="fa fa-square btn rounded float-end"
+            class="fa fa-circle btn rounded float-end"
             id="success{{ i }}"
             style="color: green"
             (click)="changeColor(todo, 'success')"
           ></button>
           <button
-            class="fa fa-square btn rounded float-end"
+            class="fa fa-circle btn rounded float-end"
             id="primary{{ i }}"
             style="color: blue"
             (click)="changeColor(todo, 'primary')"
           ></button>
           <button
-            class="fa fa-square btn rounded float-end"
+            class="fa fa-circle btn rounded float-end"
             id="warning{{ i }}"
             style="color: yellow"
             (click)="changeColor(todo, 'warning')"
           ></button>
           <button
-            class="fa fa-square btn rounded float-end"
+            class="fa fa-circle btn rounded float-end"
             id="info{{ i }}"
             style="color: turquoise"
             (click)="changeColor(todo, 'info')"
           ></button>
           <button
-            class="fa fa-square btn rounded float-end"
+            class="fa fa-circle btn rounded float-end"
             id="light{{ i }}"
             style="color: gainsboro"
             (click)="changeColor(todo, 'light')"
@@ -180,13 +196,14 @@
                   class="form-control"
                   id="date{{ i }}"
                   bsDatepicker
+                  [(bsValue)]="todo.date"
                   [minDate]="minDate"
                   [bsConfig]="{
                     dateInputFormat: 'DD-MMMM-YYYY',
                     isAnimated: true,
                     containerClass: 'theme-dark-blue'
                   }"
-                  [(ngModel)]="todo.date"
+                  (bsValueChange)="onDateChange($event)"
                   [disabled]="!this.todo.active"
                   readonly="true"
                 />

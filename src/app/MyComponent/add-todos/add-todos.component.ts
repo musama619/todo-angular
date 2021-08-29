@@ -12,7 +12,7 @@ export class AddTodosComponent implements OnInit {
   title: string;
   description: string;
   minDate: Date;
-  date: string;
+  date: Date;
 
   setDate: Date
 
@@ -41,7 +41,7 @@ export class AddTodosComponent implements OnInit {
     this.currDiv = 'D';
     this.title = '';
     this.description = '';
-    this.date = '';
+    this.date = new Date();
   }
 
   showDiv() {
@@ -53,6 +53,6 @@ export class AddTodosComponent implements OnInit {
 
     this.title = '';
     this.description = '';
-    this.date = '';
+    this.date = new Date();
   }
 }

@@ -17,24 +17,25 @@
     </div>
     <div class="mb-3">
       <label for="description" class="form-label">Description</label>
-      <input
+      <textarea
         type="textarea"
         class="form-control"
         id="description"
         [(ngModel)]="description"
         autocomplete="off"
         name="description"
-      />
+      ></textarea>
     </div>
     
     <div class="mb-3">
       <label for="description" class="form-label">Due Date</label>
       <input
+      type="text"
       [(ngModel)]="date"
       name="date"
-        type="text"
+        
         #datepickerYMD="bsDatepicker"
-        placeholder="Set New Date"
+        placeholder="Set Date"
         class="form-control"
         id="date"
         autocomplete="off"
