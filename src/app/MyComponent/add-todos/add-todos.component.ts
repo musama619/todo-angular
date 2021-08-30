@@ -14,7 +14,7 @@ export class AddTodosComponent implements OnInit {
   minDate: Date;
   date: Date;
 
-  setDate: Date
+  setDate: Date;
 
   @Output() todoAdd: EventEmitter<Todo> = new EventEmitter();
 
@@ -26,6 +26,12 @@ export class AddTodosComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
+    const date_N = new Date(this.date);
+    
+    this.date = date_N;
+
+    this.date = this.adjustDateForTimeOffset(this.date)
+
     const todo = {
       sno: 9,
       title: this.title,
@@ -35,6 +41,7 @@ export class AddTodosComponent implements OnInit {
       date: this.date,
     };
 
+    
     this.todoAdd.emit(todo);
     this.toastr.success('Todo Added');
 
@@ -54,5 +61,12 @@ export class AddTodosComponent implements OnInit {
     this.title = '';
     this.description = '';
     this.date = new Date();
+  }
+
+  adjustDateForTimeOffset(dateToAdjust) {
+
+    console.log("called")
+    var offsetMs = dateToAdjust.getTimezoneOffset() * 60000;
+    return new Date(dateToAdjust.getTime() - offsetMs);
   }
 }

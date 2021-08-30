@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Todo } from 'src/app/Todo';
 import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 declare var $: any;
 
@@ -24,14 +25,7 @@ export class TodosItemComponent implements OnInit {
     }
 
     const date_N = new Date(this.todo.date);
-    const formattedDate = date_N
-      .toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-      })
-      .replace(/ /g, '-');
-    console.log(formattedDate);
+
 
     this.todo.date = date_N;
   }
@@ -50,6 +44,7 @@ export class TodosItemComponent implements OnInit {
   difference: number;
   previousDate: Date;
   checkDone: Boolean;
+  durationInSeconds = 2;
 
   @Input() todo: Todo;
   @Input() i: number;
@@ -59,7 +54,7 @@ export class TodosItemComponent implements OnInit {
     new EventEmitter();
   @Output() todoDate: EventEmitter<Todo> = new EventEmitter();
 
-  constructor(private toastr: ToastrService) {
+  constructor(private toastr: ToastrService, private _snackBar: MatSnackBar) {
     this.minDate = new Date();
     this.minDate.setDate(this.minDate.getDate());
   }
@@ -70,8 +65,17 @@ export class TodosItemComponent implements OnInit {
   }
 
   onCheckboxClick(todo) {
-    
     this.todoCheckbox.emit(todo);
+
+    if (this.todo.active) {
+      this._snackBar.open("'" + this.todo.title + "' Unmarked", 'OK', {
+        duration: this.durationInSeconds * 1000,
+      });
+    } else {
+      this._snackBar.open("'" + this.todo.title + "' Marked as Done", 'OK', {
+        duration: this.durationInSeconds * 1000,
+      });
+    }
   }
 
   colorChanger_N(color) {
@@ -94,19 +98,39 @@ export class TodosItemComponent implements OnInit {
   }
 
   saveDate(todo: Todo) {
-    this.getDate = new Date(this.todo.date);
+    console.log('Received Raw: ' + todo.date);
+
+    const date_N = new Date(this.todo.date);
+
+    todo.date = date_N;
+
+    todo.date = this.adjustDateForTimeOffset(todo.date);
+
+    console.log('dateN: ' + date_N);
+    console.log('todo.date: ' + this.todo.date);
+    console.log('new.Date: ' + this.newDate);
+
+    this.getDate = this.todo.date;
 
     this.beforeDifference = this.getDate.getTime() - this.newDate.getTime();
+
+    console.log('before difference: ' + this.beforeDifference);
 
     this.difference = Math.round(
       Math.abs(this.beforeDifference / (1000 * 3600 * 24))
     );
 
-    console.log(todo.date);
+    console.log('Difference: ' + this.difference);
+
     this.todoDate.emit(todo);
     this.toastr.success('Changes Successful');
 
     $('#exampleModal' + this.i).modal('hide');
+  }
+
+  adjustDateForTimeOffset(dateToAdjust) {
+    var offsetMs = dateToAdjust.getTimezoneOffset() * 60000;
+    return new Date(dateToAdjust.getTime() - offsetMs);
   }
 
   onDateChange(newDate: Date) {

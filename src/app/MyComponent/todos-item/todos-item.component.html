@@ -87,16 +87,12 @@
     <div class="card-footer text-muted">
       <div class="row">
         <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="activeq{{ i }}"
+
+          <mat-checkbox class="example-margin" id="activeq{{ i }}"
             (click)="onCheckboxClick(todo)"
-            [checked]="!this.todo.active"
-          />
-          <label class="form-check-label mx-1" for="activeq{{ i }}"
-            >Mark as done</label
-          >
+            value="!this.todo.active" color="primary" >Mark as done</mat-checkbox>
+
+          
         </div>
 
         <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12">
@@ -175,38 +171,33 @@
           ></button>
         </div>
         <div class="modal-body">
-          <textarea
-            type="textarea"
-            class="form-control"
-            id="todoDescription"
-            placeholder="Enter todo description"
-            [(ngModel)]="todo.description"
-            [disabled]="!this.todo.active"
-          ></textarea>
 
+          <mat-form-field appearance="outline" [color]="'warn'">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              id="todoDescription"
+              [(ngModel)]="todo.description"
+              name="description"
+              placeholder="Enter todo description"
+              autocomplete="off"
+              [disabled]="!this.todo.active"
+              maxlength="150"
+            ></textarea>
+            <mat-hint align="end">{{todo.description?.length || 0}}/150</mat-hint>
+  
+          </mat-form-field>
           <br />
 
           <div class="row">
-            <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12 col-xs-12">
+            <div class="col-12">
               <div class="">
-                <input
-                  type="text"
-                  #datepickerYMD="bsDatepicker"
-                  placeholder="Set New Date"
-                  class="form-control"
-                  id="date{{ i }}"
-                  bsDatepicker
-                  [(bsValue)]="todo.date"
-                  [minDate]="minDate"
-                  [bsConfig]="{
-                    dateInputFormat: 'DD-MMMM-YYYY',
-                    isAnimated: true,
-                    containerClass: 'theme-dark-blue'
-                  }"
-                  (bsValueChange)="onDateChange($event)"
-                  [disabled]="!this.todo.active"
-                  readonly="true"
-                />
+                <mat-form-field appearance="fill" [color]="'warn'">
+                  <mat-label>Choose a date</mat-label> 
+                  <input matInput [matDatepicker]="picker" [min]="minDate" [(ngModel)]="todo.date" id="date{{ i }}" autocomplete="off"  [disabled]="!this.todo.active">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
               </div>
             </div>
           </div>
@@ -215,16 +206,18 @@
         <div class="modal-footer">
           <button
             type="button"
-            class="btn btn-secondary"
+            class="mx-1"
             data-bs-dismiss="modal"
+            mat-raised-button color="light"
           >
             Close
           </button>
           <button
             type="button"
-            class="btn btn-primary"
+            class="mx-1"
             (click)="saveDate(todo)"
             [hidden]="!this.todo.active"
+            mat-raised-button color="warn"
           >
             Save
           </button>

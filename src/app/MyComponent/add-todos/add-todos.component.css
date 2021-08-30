@@ -25,3 +25,7 @@
   text-decoration: none;
 }
 input[type="text"]:disabled{background-color: white;}
+
+mat-form-field {
+  width: 100%;
+}

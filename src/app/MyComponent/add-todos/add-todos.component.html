@@ -1,60 +1,83 @@
 <div class="my-3">
-  <h1 class="text-center">Todo App</h1>
+  <button
+    type="submit"
+    (click)="showDiv()"
+    *ngIf="currDiv === 'D'"
+    mat-fab
+    color="primary"
+    matTooltip="Add Task"
+    matTooltipPosition="right"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
 
-  <button type="submit" class="btn btn-warning" (click)="showDiv()" *ngIf="currDiv === 'D'">Add Task</button>
+  <mat-card *ngIf="currDiv === 'A'">
+    <mat-card-title class="my-3"> Add Todo </mat-card-title>
+    <form (ngSubmit)="onSubmit()">
+      <div >
+        <mat-form-field appearance="outline" [color]="'warn'">
+          <mat-label>Title</mat-label>
+          <input
+            matInput
+            id="title"
+            [(ngModel)]="title"
+            name="title"
+            id="title"
+            name="title"
+            autocomplete="off"
+            maxlength="50"
+          />
+          <mat-hint align="end">{{title?.length || 0}}/50</mat-hint>
+        </mat-form-field>
 
-  <form (ngSubmit)="onSubmit()" *ngIf="currDiv === 'A'">
-    <div class="mb-3">
-      <label for="title" class="form-label">Todo Title</label>
-      <input
-        type="text"
-        class="form-control"
-        id="title"
-        name="title"
-        autocomplete="off"
-        [(ngModel)]="title"
-      />
-    </div>
-    <div class="mb-3">
-      <label for="description" class="form-label">Description</label>
-      <textarea
-        type="textarea"
-        class="form-control"
-        id="description"
-        [(ngModel)]="description"
-        autocomplete="off"
-        name="description"
-      ></textarea>
-    </div>
-    
-    <div class="mb-3">
-      <label for="description" class="form-label">Due Date</label>
-      <input
-      type="text"
-      [(ngModel)]="date"
-      name="date"
-        
-        #datepickerYMD="bsDatepicker"
-        placeholder="Set Date"
-        class="form-control"
-        id="date"
-        autocomplete="off"
-        bsDatepicker
-        [minDate]="minDate"
-        [bsConfig]="{
-          dateInputFormat: 'DD-MMMM-YYYY',
-          containerClass: 'theme-dark-blue'
-        }"
-        readonly=true
-        
+      </div>
+      <div class="mb-3">
+        <mat-form-field appearance="outline" [color]="'warn'">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            id="description"
+            [(ngModel)]="description"
+            name="description"
+            autocomplete="off"
+            maxlength="150"
+          ></textarea>
+          <mat-hint align="end">{{description?.length || 0}}/150</mat-hint>
 
-      />
-    </div>
+        </mat-form-field>
 
-    <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-success" [disabled]="!title">Add Todo</button>
-      <button type="Cancel" class="btn btn-light mx-1" (click)="onCancel()">Cancel</button>
+      </div>
 
-    </div>
-  </form>
+      <div class="mb-3">
+
+
+        <mat-form-field appearance="fill" [color]="'warn'">
+          <mat-label>Choose a date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [(ngModel)]="date"
+            [min]="minDate"
+            id="date"
+            name="date"
+            autocomplete="off"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-success" [disabled]="!title" mat-raised-button color="warn">
+          Add Todo
+        </button>
+        <button type="Cancel" class="btn btn-light mx-1" (click)="onCancel()" mat-raised-button color="light">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </mat-card>
 </div>

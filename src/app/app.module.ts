@@ -18,12 +18,17 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatNativeDateModule} from '@angular/material/core';
 
-import { MatMomentDateModule } from "@angular/material-moment-adapter";
-
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ToastrModule } from 'ngx-toastr';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import {MatIconModule} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -52,8 +57,17 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
     BsDatepickerModule.forRoot(),
     ToastrModule.forRoot(),
     TimepickerModule.forRoot(),
+    MatIconModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatSnackBarModule,
+    MatTooltipModule
   ],
-  providers: [],
-  bootstrap: [AppComponent],
+  providers: [
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true },
+   },
+    
+  ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}
