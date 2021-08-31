@@ -1,5 +1,5 @@
 <div class="mt-3">
-  <div class="card mb-3">
+  <div class="card mb-3 shadow rounded">
     <div [className]="' card-header bg-' + todo.color">
       <div
         [ngClass]="{
@@ -9,7 +9,8 @@
         class="float-start fw-bold"
       >
         {{ todo.title }}
-        <span [hidden]="!todo.active"
+        <span
+          [hidden]="!todo.active"
           class="badge rounded-pill mx-2"
           [ngClass]="{
             'bg-danger': difference <= 1,
@@ -19,14 +20,15 @@
           *ngIf="difference > 1; else elseBlock"
           >Due in {{ difference }} days</span
         >
-        <span [hidden]="todo.active"
+        <span
+          [hidden]="todo.active"
           class="badge rounded-pill mx-2 bg-success"
-          
           id="sett{{ i }}"
           >Completed</span
         >
         <ng-template #elseBlock>
-          <span [hidden]="!todo.active"
+          <span
+            [hidden]="!todo.active"
             class="badge rounded-pill mx-2"
             [ngClass]="{
               'bg-danger': difference <= 1,
@@ -38,24 +40,24 @@
           >
         </ng-template>
         <ng-template #second>
-          <span [hidden]="!todo.active"
+          <span
+            [hidden]="!todo.active"
             class="badge rounded-pill mx-2"
             [ngClass]="{
               'bg-danger': difference <= 1,
               'bg-primary': difference > 1
             }"
-            id="sett{{ i }}" 
+            id="sett{{ i }}"
             *ngIf="difference === 1; else third"
-            >Due in {{difference}} day</span
+            >Due in {{ difference }} day</span
           >
         </ng-template>
         <ng-template #third>
-          <span [hidden]="!todo.active"
+          <span
+            [hidden]="!todo.active"
             class="badge rounded-pill mx-2"
-            
-            id="sett{{ i }}" 
-            ></span
-          >
+            id="sett{{ i }}"
+          ></span>
         </ng-template>
       </div>
 
@@ -79,20 +81,25 @@
           }"
           class="card-text"
         >
-
           {{ todo.description }}
         </p>
+        <p [ngClass]="{
+          'text-decoration': todo.active,
+          'text-decoration-line-through': !todo.active
+        }">{{ cardDate }}</p>
       </div>
     </a>
     <div class="card-footer text-muted">
       <div class="row">
         <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12">
-
-          <mat-checkbox class="example-margin" id="activeq{{ i }}"
+          <mat-checkbox
+            class="example-margin"
+            id="activeq{{ i }}"
             (click)="onCheckboxClick(todo)"
-            value="!this.todo.active" color="primary" >Mark as done</mat-checkbox>
-
-          
+            value="!this.todo.active"
+            color="primary"
+            >Mark as done</mat-checkbox
+          >
         </div>
 
         <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12">
@@ -112,7 +119,7 @@
             (click)="showModalDetails(todo)"
             [hidden]="this.todo.active"
           >
-          <i class="fa fa-eye"></i>
+            <i class="fa fa-eye"></i>
             View
           </button>
           <button
@@ -171,7 +178,6 @@
           ></button>
         </div>
         <div class="modal-body">
-
           <mat-form-field appearance="outline" [color]="'warn'">
             <mat-label>Description</mat-label>
             <textarea
@@ -184,8 +190,9 @@
               [disabled]="!this.todo.active"
               maxlength="150"
             ></textarea>
-            <mat-hint align="end">{{todo.description?.length || 0}}/150</mat-hint>
-  
+            <mat-hint align="end"
+              >{{ todo.description?.length || 0 }}/150</mat-hint
+            >
           </mat-form-field>
           <br />
 
@@ -193,9 +200,21 @@
             <div class="col-12">
               <div class="">
                 <mat-form-field appearance="fill" [color]="'warn'">
-                  <mat-label>Choose a date</mat-label> 
-                  <input matInput [matDatepicker]="picker" [min]="minDate" [(ngModel)]="todo.date" id="date{{ i }}" autocomplete="off"  [disabled]="!this.todo.active">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-label>Choose a date</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    [min]="minDate"
+                    [(ngModel)]="todo.date"
+                    id="date{{ i }}"
+                    autocomplete="off"
+                    [disabled]="!this.todo.active"
+                    readonly
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -208,7 +227,8 @@
             type="button"
             class="mx-1"
             data-bs-dismiss="modal"
-            mat-raised-button color="light"
+            mat-raised-button
+            color="light"
           >
             Close
           </button>
@@ -217,7 +237,8 @@
             class="mx-1"
             (click)="saveDate(todo)"
             [hidden]="!this.todo.active"
-            mat-raised-button color="warn"
+            mat-raised-button
+            color="warn"
           >
             Save
           </button>

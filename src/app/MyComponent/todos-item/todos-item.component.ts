@@ -26,8 +26,10 @@ export class TodosItemComponent implements OnInit {
 
     const date_N = new Date(this.todo.date);
 
-
     this.todo.date = date_N;
+
+    this.cardDate = this.todo.date.toLocaleDateString()
+
   }
 
   localItem: string;
@@ -45,7 +47,7 @@ export class TodosItemComponent implements OnInit {
   previousDate: Date;
   checkDone: Boolean;
   durationInSeconds = 2;
-
+  cardDate: any;
   @Input() todo: Todo;
   @Input() i: number;
   @Output() todoDelete: EventEmitter<Todo> = new EventEmitter();
@@ -106,9 +108,7 @@ export class TodosItemComponent implements OnInit {
 
     todo.date = this.adjustDateForTimeOffset(todo.date);
 
-    console.log('dateN: ' + date_N);
-    console.log('todo.date: ' + this.todo.date);
-    console.log('new.Date: ' + this.newDate);
+    this.cardDate = todo.date.toLocaleDateString()
 
     this.getDate = this.todo.date;
 
@@ -119,8 +119,6 @@ export class TodosItemComponent implements OnInit {
     this.difference = Math.round(
       Math.abs(this.beforeDifference / (1000 * 3600 * 24))
     );
-
-    console.log('Difference: ' + this.difference);
 
     this.todoDate.emit(todo);
     this.toastr.success('Changes Successful');
